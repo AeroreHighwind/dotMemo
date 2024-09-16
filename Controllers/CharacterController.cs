@@ -13,7 +13,7 @@ namespace dotMemo.Controllers
     public class CharacterController : ControllerBase
     {
         private readonly ICharacterService characterService;
-        CharacterController(CharacterService _charService) { 
+        public CharacterController(ICharacterService _charService) { 
             this.characterService = _charService;
         }
 
@@ -34,7 +34,7 @@ namespace dotMemo.Controllers
         {
             return await characterService.FindAll(userId);
         }
-
+        //Add id to route param
         [HttpPut("update")]
         public async Task<IActionResult> Update([FromRoute][NotNull] int characterId, [FromBody][NotNull] CharacterModel updatedCharacter)
         {

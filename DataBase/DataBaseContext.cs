@@ -5,9 +5,13 @@ namespace dotMemo.DataBase
 {
     public class DataBaseContext :DbContext
     {
+        public DataBaseContext()
+        {
+            
+        }
         public DataBaseContext(DbContextOptions<DataBaseContext> options) : base(options) { }
 
-        public DbSet <User> Users { get; set; }
-        public DbSet<Character> Characters { get; set; }
+        public virtual DbSet <User> Users { get; set; }
+        public virtual DbSet<Character> Characters { get; set; }
     }
 }

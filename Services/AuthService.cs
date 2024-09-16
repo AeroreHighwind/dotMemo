@@ -1,32 +1,50 @@
 ﻿using dotMemo.Entities;
 using dotMemo.Interfaces;
 using dotMemo.Models;
-using Microsoft.AspNetCore.Mvc;
+using dotMemo.Repositories;
 
 namespace dotMemo.Services
 {
     public class AuthService : IAuthService
     {
-        public AuthService() { }
+        private readonly IUserRepository UserRepository;
+        public AuthService(IUserRepository userRepository) {
+        UserRepository = userRepository;
+        }
 
-        public Task<IActionResult> ChangePassword(string username, string password)
+        public async Task<User> ChangePassword(string username, string password)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IActionResult> Login(LoginModel loginDto)
+        public async Task<User> Login(LoginModel loginDto)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IActionResult> Logout(int userId)
+        public async Task<bool> Logout(int userId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IActionResult> SignUp(RegisterModel registerDto)
+        public async Task<User> SignUp(RegisterModel registerDto)
         {
-            throw new NotImplementedException();
+            var user = new User
+            {
+                UserName = registerDto.Username,
+                Email = registerDto.Email,
+                Password = registerDto.Password
+            };
+
+           var createdUser = await UserRepository.CreateUser(user);
+            var returnedUser = new User
+             {
+                UserName = registerDto.Username,
+                Email = registerDto.Email,
+            };
+
+            return createdUser;
         }
+
     }
 }

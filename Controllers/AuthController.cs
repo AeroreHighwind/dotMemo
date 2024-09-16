@@ -1,8 +1,5 @@
-using dotMemo.Entities;
 using dotMemo.Interfaces;
 using dotMemo.Models;
-using dotMemo.Services;
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics.CodeAnalysis;
 
@@ -13,20 +10,23 @@ namespace dotMemo.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService authService;
-        AuthController( AuthService _auth) { 
+
+        public AuthController( IAuthService _auth) { 
             this.authService = _auth;
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] [NotNull] LoginModel loginRequest)
         {
-            return await authService.Login(loginRequest);
+            var loginSuccessful = await authService.Login(loginRequest);
+            return loginSuccessful != null ? Ok(loginSuccessful) : BadRequest(loginSuccessful);
         }
 
         [HttpPost("sign-up")]
         public async Task<IActionResult> SignUp([FromBody][NotNull] RegisterModel registerDto)
         {
-            return await authService.SignUp(registerDto);
+            var registerSuccessful = await authService.SignUp(registerDto);
+            return registerSuccessful != null ? Ok(registerSuccessful) : BadRequest(registerSuccessful);
         }
 
     }
