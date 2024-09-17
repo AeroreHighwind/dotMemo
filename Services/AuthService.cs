@@ -2,15 +2,14 @@
 using dotMemo.Interfaces;
 using dotMemo.Models;
 using dotMemo.Repositories;
+using Microsoft.AspNetCore.Identity;
 
 namespace dotMemo.Services
 {
-    public class AuthService : IAuthService
+    public class AuthService(IUserRepository _userRepository, IPasswordHasher<User> _passHasher) : IAuthService
     {
-        private readonly IUserRepository UserRepository;
-        public AuthService(IUserRepository userRepository) {
-        UserRepository = userRepository;
-        }
+        private readonly IUserRepository UserRepository = _userRepository;
+        private readonly IPasswordHasher<User> PasswordHasher = _passHasher;
 
         public async Task<User> ChangePassword(string username, string password)
         {
@@ -29,21 +28,31 @@ namespace dotMemo.Services
 
         public async Task<User> SignUp(RegisterModel registerDto)
         {
-            var user = new User
+            try
             {
-                UserName = registerDto.Username,
-                Email = registerDto.Email,
-                Password = registerDto.Password
-            };
+                var user = new User
+                {
+                    UserName = registerDto.Username,
+                    Email = registerDto.Email,
+                    Password = registerDto.Password
+                };
 
-           var createdUser = await UserRepository.CreateUser(user);
-            var returnedUser = new User
-             {
-                UserName = registerDto.Username,
-                Email = registerDto.Email,
-            };
+                var hashedPassword = PasswordHasher.HashPassword(user, registerDto.Password);
+                user.Password = hashedPassword;
 
-            return createdUser;
+                var createdUser = await UserRepository.CreateUser(user);
+                var returnedUser = new User
+                {
+                    UserName = createdUser.UserName,
+                    Email = createdUser.Email,
+                };
+
+                return returnedUser;
+            }
+            catch (Exception ex) {
+                Console.WriteLine("An error ocurred while creating a new user: {0} ", ex);
+                return null;
+            }
         }
 
     }

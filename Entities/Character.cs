@@ -28,7 +28,7 @@ namespace dotMemo.Entities
 
         public bool gender { get; set; }
 
-        [ForeignKey("Id")]
+        [ForeignKey("Email")]
         public virtual User User { get; set; }
     }
 }
