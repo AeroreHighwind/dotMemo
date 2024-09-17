@@ -5,9 +5,7 @@ namespace dotMemo.DataBase
 {
     public class DataBaseContext :DbContext
     {
-        public DataBaseContext()
-        {
-            
+        public DataBaseContext(){
         }
         public DataBaseContext(DbContextOptions<DataBaseContext> options) : base(options) { }
 

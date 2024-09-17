@@ -1,8 +1,5 @@
-using dotMemo.Entities;
 using dotMemo.Interfaces;
 using dotMemo.Models;
-using dotMemo.Services;
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics.CodeAnalysis;
 
