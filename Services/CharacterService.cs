@@ -1,5 +1,4 @@
-﻿using dotMemo.Entities;
-using dotMemo.Interfaces;
+﻿using dotMemo.Interfaces;
 using dotMemo.Models;
 using Microsoft.AspNetCore.Mvc;
 

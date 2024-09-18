@@ -1,4 +1,4 @@
-﻿namespace dotMemo.Models
+﻿namespace dotMemo.Models.User
 {
     public class UserModel
     {

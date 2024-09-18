@@ -1,15 +1,16 @@
 ﻿
 using dotMemo.Entities;
-using dotMemo.Models;
+using dotMemo.Models.Responses;
+using dotMemo.Models.User;
 using Microsoft.AspNetCore.Mvc;
 
 namespace dotMemo.Interfaces
 {
     public interface IAuthService
     {
-        public Task<User> Login(LoginModel loginDto);
+        public Task<LoginResponseModel> Login(UserLoginModel loginDto);
 
-        public Task<UserModel> SignUp(RegisterModel registerDto);
+        public Task<UserModel> SignUp(UserRegisterModel registerDto);
 
         public Task<bool> Logout(int userId);
 

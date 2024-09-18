@@ -1,5 +1,5 @@
 using dotMemo.Interfaces;
-using dotMemo.Models;
+using dotMemo.Models.User;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics.CodeAnalysis;
 
@@ -12,14 +12,14 @@ namespace dotMemo.Controllers
         private readonly IAuthService authService = _auth;
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] [NotNull] LoginModel loginRequest)
+        public async Task<IActionResult> Login([FromBody] [NotNull] UserLoginModel loginRequest)
         {
             var loginSuccessful = await authService.Login(loginRequest);
             return loginSuccessful != null ? Ok(loginSuccessful) : BadRequest(loginSuccessful);
         }
 
         [HttpPost("sign-up")]
-        public async Task<IActionResult> SignUp([FromBody][NotNull] RegisterModel registerDto)
+        public async Task<IActionResult> SignUp([FromBody][NotNull] UserRegisterModel registerDto)
         {
             var registerSuccessful = await authService.SignUp(registerDto);
             return registerSuccessful != null ? Ok(registerSuccessful) : BadRequest(registerSuccessful);

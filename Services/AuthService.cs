@@ -1,6 +1,7 @@
 ﻿using dotMemo.Entities;
 using dotMemo.Interfaces;
-using dotMemo.Models;
+using dotMemo.Models.Responses;
+using dotMemo.Models.User;
 using dotMemo.Repositories;
 using Mapster;
 using Microsoft.AspNetCore.Identity;
@@ -17,9 +18,32 @@ namespace dotMemo.Services
             throw new NotImplementedException();
         }
 
-        public async Task<User> Login(LoginModel loginDto)
+        public async Task<LoginResponseModel> Login(UserLoginModel loginDto)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var existingUser = await UserRepository.GetUserByEmail(loginDto.Email);
+                Console.WriteLine("EXISTING USER {0}", existingUser);
+                var authResult = PasswordHasher.VerifyHashedPassword(existingUser, existingUser.Password, loginDto.Password);
+                if (authResult != PasswordVerificationResult.Success) throw new Exception("Login failed");
+                {
+                    var responseDto = new LoginResponseModel
+                    {
+                        _AccessToken = "SUCCESS",
+                        _RefreshToken = "loginDto"
+                    };
+
+                    return responseDto;
+                }
+            }
+            catch (Exception ex) {
+                return new LoginResponseModel
+                {
+                    _AccessToken = "FAILED",
+                    _RefreshToken = "FAILED",
+                };
+            }
+            
         }
 
         public async Task<bool> Logout(int userId)
@@ -27,7 +51,7 @@ namespace dotMemo.Services
             throw new NotImplementedException();
         }
 
-        public async Task<UserModel> SignUp(RegisterModel registerDto)
+        public async Task<UserModel> SignUp(UserRegisterModel registerDto)
         {
             try
             {

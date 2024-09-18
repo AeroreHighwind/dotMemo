@@ -16,10 +16,9 @@ namespace dotMemo.Repositories
         }
 
 
-        public async Task<User> GetUser(int userId)
+        public async Task<User> GetUserByEmail(string userEmail)
         {
-            return appDbContext.Users.FirstOrDefault<User>();
-                
+            return await appDbContext.Users.FirstOrDefaultAsync(u => u.Email == userEmail);
         }
 
         public async Task<User> CreateUser(User user)

@@ -5,7 +5,7 @@ namespace dotMemo.Interfaces
 {
     public interface IUserRepository
     {
-        public Task<User> GetUser(int userId);
+        public Task<User> GetUserByEmail(string userEmail);
 
         public Task<User> CreateUser(User user);
 
