@@ -1,8 +1,5 @@
-using dotMemo.Entities;
 using dotMemo.Interfaces;
 using dotMemo.Models;
-using dotMemo.Services;
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics.CodeAnalysis;
 
@@ -10,12 +7,9 @@ namespace dotMemo.Controllers
 {
     [ApiController]
     [Route("characters")]
-    public class CharacterController : ControllerBase
+    public class CharacterController(ICharacterService _charService) : ControllerBase
     {
-        private readonly ICharacterService characterService;
-        CharacterController(CharacterService _charService) { 
-            this.characterService = _charService;
-        }
+        private readonly ICharacterService characterService = _charService;
 
         [HttpPost("create")]
         public async Task<IActionResult> Create([FromBody] [NotNull] CharacterModel newCharacter)
@@ -34,7 +28,7 @@ namespace dotMemo.Controllers
         {
             return await characterService.FindAll(userId);
         }
-
+        //Add id to route param
         [HttpPut("update")]
         public async Task<IActionResult> Update([FromRoute][NotNull] int characterId, [FromBody][NotNull] CharacterModel updatedCharacter)
         {

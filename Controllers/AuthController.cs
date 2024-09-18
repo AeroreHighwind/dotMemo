@@ -1,8 +1,5 @@
-using dotMemo.Entities;
 using dotMemo.Interfaces;
-using dotMemo.Models;
-using dotMemo.Services;
-using Microsoft.AspNetCore.Identity.Data;
+using dotMemo.Models.User;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics.CodeAnalysis;
 
@@ -10,23 +7,22 @@ namespace dotMemo.Controllers
 {
     [ApiController]
     [Route("auth")]
-    public class AuthController : ControllerBase
+    public class AuthController(IAuthService _auth) : ControllerBase
     {
-        private readonly IAuthService authService;
-        AuthController( AuthService _auth) { 
-            this.authService = _auth;
-        }
+        private readonly IAuthService authService = _auth;
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] [NotNull] LoginModel loginRequest)
+        public async Task<IActionResult> Login([FromBody] [NotNull] UserLoginModel loginRequest)
         {
-            return await authService.Login(loginRequest);
+            var loginResponse = await authService.Login(loginRequest);
+            return loginResponse._Success ? Ok(loginResponse) : BadRequest(loginResponse);
         }
 
         [HttpPost("sign-up")]
-        public async Task<IActionResult> SignUp([FromBody][NotNull] RegisterModel registerDto)
+        public async Task<IActionResult> SignUp([FromBody][NotNull] UserRegisterModel registerDto)
         {
-            return await authService.SignUp(registerDto);
+            var registerSuccessful = await authService.SignUp(registerDto);
+            return registerSuccessful != null ? Created() : BadRequest();
         }
 
     }
