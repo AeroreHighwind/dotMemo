@@ -23,24 +23,30 @@ namespace dotMemo.Services
             try
             {
                 var existingUser = await UserRepository.GetUserByEmail(loginDto.Email);
-                Console.WriteLine("EXISTING USER {0}", existingUser);
                 var authResult = PasswordHasher.VerifyHashedPassword(existingUser, existingUser.Password, loginDto.Password);
-                if (authResult != PasswordVerificationResult.Success) throw new Exception("Login failed");
-                {
-                    var responseDto = new LoginResponseModel
+                if (authResult == PasswordVerificationResult.Success) {
                     {
-                        _AccessToken = "SUCCESS",
-                        _RefreshToken = "loginDto"
-                    };
+                        var responseDto = new LoginResponseModel
+                        {
+                            _AccessToken = "SUCCESS",
+                            _RefreshToken = "SUCCESS",
+                            _Success = true
+                        };
 
-                    return responseDto;
+                        return responseDto;
+                    }
+
                 }
-            }
-            catch (Exception ex) {
                 return new LoginResponseModel
                 {
-                    _AccessToken = "FAILED",
-                    _RefreshToken = "FAILED",
+                    _Success = false
+                };
+            }
+            catch (Exception ex) {
+                Console.WriteLine($"An exception ocurred: {ex}");
+                return new LoginResponseModel
+                {
+                    _Success = false
                 };
             }
             

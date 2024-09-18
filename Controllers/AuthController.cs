@@ -14,8 +14,8 @@ namespace dotMemo.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] [NotNull] UserLoginModel loginRequest)
         {
-            var loginSuccessful = await authService.Login(loginRequest);
-            return loginSuccessful != null ? Ok(loginSuccessful) : BadRequest(loginSuccessful);
+            var loginResponse = await authService.Login(loginRequest);
+            return loginResponse._Success ? Ok(loginResponse) : BadRequest(loginResponse);
         }
 
         [HttpPost("sign-up")]
