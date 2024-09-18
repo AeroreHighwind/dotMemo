@@ -7,12 +7,9 @@ namespace dotMemo.Controllers
 {
     [ApiController]
     [Route("characters")]
-    public class CharacterController : ControllerBase
+    public class CharacterController(ICharacterService _charService) : ControllerBase
     {
-        private readonly ICharacterService characterService;
-        public CharacterController(ICharacterService _charService) { 
-            this.characterService = _charService;
-        }
+        private readonly ICharacterService characterService = _charService;
 
         [HttpPost("create")]
         public async Task<IActionResult> Create([FromBody] [NotNull] CharacterModel newCharacter)

@@ -11,8 +11,8 @@ using dotMemo.DataBase;
 namespace dotMemo.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20240917185511_V1")]
-    partial class V1
+    [Migration("20240917194852_V2")]
+    partial class V2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

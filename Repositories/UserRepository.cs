@@ -2,7 +2,6 @@
 using dotMemo.Entities;
 using dotMemo.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace dotMemo.Repositories
 {
@@ -37,7 +36,7 @@ namespace dotMemo.Repositories
 
             if (result != null)
             {
-                result.UserName = user.UserName;
+                result.Username = user.Username;
 
                 await appDbContext.SaveChangesAsync();
 

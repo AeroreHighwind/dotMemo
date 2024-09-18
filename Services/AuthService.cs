@@ -2,6 +2,7 @@
 using dotMemo.Interfaces;
 using dotMemo.Models;
 using dotMemo.Repositories;
+using Mapster;
 using Microsoft.AspNetCore.Identity;
 
 namespace dotMemo.Services
@@ -11,7 +12,7 @@ namespace dotMemo.Services
         private readonly IUserRepository UserRepository = _userRepository;
         private readonly IPasswordHasher<User> PasswordHasher = _passHasher;
 
-        public async Task<User> ChangePassword(string username, string password)
+        public async Task<User> ChangePassword(string Username, string password)
         {
             throw new NotImplementedException();
         }
@@ -26,13 +27,13 @@ namespace dotMemo.Services
             throw new NotImplementedException();
         }
 
-        public async Task<User> SignUp(RegisterModel registerDto)
+        public async Task<UserModel> SignUp(RegisterModel registerDto)
         {
             try
             {
                 var user = new User
                 {
-                    UserName = registerDto.Username,
+                    Username = registerDto.Username,
                     Email = registerDto.Email,
                     Password = registerDto.Password
                 };
@@ -41,16 +42,13 @@ namespace dotMemo.Services
                 user.Password = hashedPassword;
 
                 var createdUser = await UserRepository.CreateUser(user);
-                var returnedUser = new User
-                {
-                    UserName = createdUser.UserName,
-                    Email = createdUser.Email,
-                };
+
+                var returnedUser = createdUser.Adapt<UserModel>();
 
                 return returnedUser;
             }
             catch (Exception ex) {
-                Console.WriteLine("An error ocurred while creating a new user: {0} ", ex);
+                Console.WriteLine("An error ocurred while creating a new user");
                 return null;
             }
         }

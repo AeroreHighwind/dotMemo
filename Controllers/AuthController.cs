@@ -7,13 +7,9 @@ namespace dotMemo.Controllers
 {
     [ApiController]
     [Route("auth")]
-    public class AuthController : ControllerBase
+    public class AuthController(IAuthService _auth) : ControllerBase
     {
-        private readonly IAuthService authService;
-
-        public AuthController( IAuthService _auth) { 
-            this.authService = _auth;
-        }
+        private readonly IAuthService authService = _auth;
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] [NotNull] LoginModel loginRequest)

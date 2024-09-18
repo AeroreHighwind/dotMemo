@@ -9,10 +9,10 @@ namespace dotMemo.Interfaces
     {
         public Task<User> Login(LoginModel loginDto);
 
-        public Task<User> SignUp(RegisterModel registerDto);
+        public Task<UserModel> SignUp(RegisterModel registerDto);
 
         public Task<bool> Logout(int userId);
 
-        public Task<User> ChangePassword(string username, string password);
+        public Task<User> ChangePassword(string Username, string password);
     }
 }
