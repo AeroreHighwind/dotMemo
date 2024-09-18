@@ -22,7 +22,7 @@ namespace dotMemo.Controllers
         public async Task<IActionResult> SignUp([FromBody][NotNull] UserRegisterModel registerDto)
         {
             var registerSuccessful = await authService.SignUp(registerDto);
-            return registerSuccessful != null ? Ok(registerSuccessful) : BadRequest(registerSuccessful);
+            return registerSuccessful != null ? Created() : BadRequest();
         }
 
     }

@@ -25,7 +25,7 @@ namespace dotMemo.Services
                 var existingUser = await UserRepository.GetUserByEmail(loginDto.Email);
                 var authResult = PasswordHasher.VerifyHashedPassword(existingUser, existingUser.Password, loginDto.Password);
                 if (authResult == PasswordVerificationResult.Success) {
-                    {
+          
                         var responseDto = new LoginResponseModel
                         {
                             _AccessToken = "SUCCESS",
@@ -35,8 +35,7 @@ namespace dotMemo.Services
 
                         return responseDto;
                     }
-
-                }
+                
                 return new LoginResponseModel
                 {
                     _Success = false
