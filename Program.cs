@@ -27,12 +27,7 @@ builder.Services.AddDbContext<DataBaseContext>(options =>
 
 var app = builder.Build();
 //Init DB Migration
-using (var scope = app.Services.CreateScope())
-{
-    var context = scope.ServiceProvider.GetRequiredService<DataBaseContext>();
-    Console.WriteLine(context);
-    context.Database.Migrate();
-}
+//initDbMigration();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -48,3 +43,15 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
+
+ void initDbMigration()
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var context = scope.ServiceProvider.GetRequiredService<DataBaseContext>();
+        Console.WriteLine(context);
+        context.Database.Migrate();
+    }
+}
