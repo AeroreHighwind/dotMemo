@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using dotMemo.Enums;
+using dotMemo.R;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -13,6 +15,8 @@ namespace dotMemo.Entities
         public string Username { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+
+        public Role role { get; set; } = Role.User;
 
         public virtual ICollection<Character> Characters { get; set; }
     }
